@@ -23,7 +23,7 @@ def detect_emotion():
                 'sadness': {response["sadness"]}.
                 The dominant emotion is {response["dominant_emotion"]}.
                 """
-    elif response["dominant_emotion"] is None:
+    if response["dominant_emotion"] is None:
         return "Invalid text! Please try again!"
 
     return f"Internal server error detecting the emotions for {text_to_analyze}"
