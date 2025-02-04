@@ -13,7 +13,7 @@ def detect_emotion():
     """
     text_to_analyze = request.args.get("textToAnalyze")
     response = emotion_detector(text_to_analyze)
-    if response:
+    if response and response["dominant_emotion"]:
         return f"""
                 For the given statement, the system response is 
                 'anger': {response["anger"]},
@@ -23,8 +23,10 @@ def detect_emotion():
                 'sadness': {response["sadness"]}.
                 The dominant emotion is {response["dominant_emotion"]}.
                 """
+    elif response["dominant_emotion"] is None:
+        return "Invalid text! Please try again!"
 
-    return {"message": f"Error detecting the emotions for {text_to_analyze}"}
+    return f"Internal server error detecting the emotions for {text_to_analyze}"
 
 @app.route("/")
 def render_index_page():
